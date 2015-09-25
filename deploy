@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+set -e
+set -x
+
+ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+TARGET="$ROOT/.tmp/deploy"
+SITE="$TARGET/_site"
+
+function deploy() {
+  local branch="$1"
+  local remote="$2"
+  rm -rf "$TARGET"
+  mkdir -p "$TARGET"
+  jekyll build
+  rsync -a "_site/" "$SITE"
+  cd "$SITE"
+  touch .nojekyll
+  git init
+  git remote add origin "$remote"
+  git checkout -b "$branch"
+  git add --all
+  git commit -m "Deployment $(date '+%Y-%m-%d %H:%M:%S %z')"
+  git push origin "$branch" -f
+}
+
+deploy "master" "git@github.com:potatosalad/potatosalad.github.io.git"
+
+exit 0
