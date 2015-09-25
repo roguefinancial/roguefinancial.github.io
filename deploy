@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+set -e
+set -x
+
+ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+SRC="$ROOT/_site"
+TMP="$ROOT/.tmp"
+DST="$TMP/_site"
+
+function prepare() {
+  local branch="$1"
+  local remote="$2"
+  if [[ ! -d "$DST" ]]; then
+    mkdir -p "$TMP"
+    git clone "$remote" "$DST"
+  fi
+  cd "$DST"
+  git remote set-url origin "$remote"
+  git fetch origin
+  git checkout "$branch"
+  git reset --hard "origin/$branch"
+  git clean -dfx
+  (git rm -rf --quiet . 1>/dev/null 2>/dev/null) || true
+}
+
+function build() {
+  cd "$ROOT"
+  jekyll build
+  rsync -a "$SRC/" "$DST/"
+  cd "$DST"
+  touch .nojekyll
+}
+
+function publish() {
+  local branch="$1"
+  cd "$DST"
+  git add --all
+  git commit -m "Deployment $(date '+%Y-%m-%d %H:%M:%S %z')"
+  git push origin "$branch"
+}
+
+function deploy() {
+  local branch="$1"
+  local remote="$2"
+  prepare "$branch" "$remote"
+  build
+  publish "$branch"
+}
+
+deploy "master" "git@github.com:potatosalad/potatosalad.github.io.git"
+
+exit 0
