@@ -2,9 +2,9 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
  <title>potatosalad</title>
- <link href="https://potatosalad.github.io//atom.xml" rel="self"/>
- <link href="https://potatosalad.github.io//"/>
- <updated>2015-09-25T11:43:45-06:00</updated>
+ <link href="https://potatosalad.github.io/atom.xml" rel="self"/>
+ <link href="https://potatosalad.github.io/"/>
+ <updated>2015-09-25T11:44:50-06:00</updated>
  <id>https://potatosalad.github.io</id>
  <author>
    <name>Andrew Bennett</name>
@@ -16,7 +16,7 @@
    <title>Introducing Lanyon</title>
    <link href="https://potatosalad.github.io/2014/01/02/introducing-lanyon/"/>
    <updated>2014-01-02T00:00:00-07:00</updated>
-   <id>https://potatosalad.github.io//2014/01/02/introducing-lanyon</id>
+   <id>https://potatosalad.github.io/2014/01/02/introducing-lanyon</id>
    <content type="html">&lt;p&gt;Lanyon is an unassuming &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll&lt;/a&gt; theme that places content first by tucking away navigation in a hidden drawer. It&amp;#39;s based on &lt;a href=&quot;http://getpoole.com&quot;&gt;Poole&lt;/a&gt;, the Jekyll butler.&lt;/p&gt;
 
 &lt;h3&gt;Built on Poole&lt;/h3&gt;
@@ -61,7 +61,7 @@
    <title>Example content</title>
    <link href="https://potatosalad.github.io/2014/01/01/example-content/"/>
    <updated>2014-01-01T00:00:00-07:00</updated>
-   <id>https://potatosalad.github.io//2014/01/01/example-content</id>
+   <id>https://potatosalad.github.io/2014/01/01/example-content</id>
    <content type="html">&lt;div class=&quot;message&quot;&gt;
   Howdy! This is an example blog post that shows several types of HTML content supported in this theme.
 &lt;/div&gt;
@@ -191,7 +191,7 @@
    <title>What's Jekyll?</title>
    <link href="https://potatosalad.github.io/2013/12/31/whats-jekyll/"/>
    <updated>2013-12-31T00:00:00-07:00</updated>
-   <id>https://potatosalad.github.io//2013/12/31/whats-jekyll</id>
+   <id>https://potatosalad.github.io/2013/12/31/whats-jekyll</id>
    <content type="html">&lt;p&gt;&lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll&lt;/a&gt; is a static site generator, an open-source tool for creating simple yet powerful websites of all shapes and sizes. From &lt;a href=&quot;https://github.com/mojombo/jekyll/blob/master/README.markdown&quot;&gt;the project&amp;#39;s readme&lt;/a&gt;:&lt;/p&gt;
 
 &lt;blockquote&gt;
