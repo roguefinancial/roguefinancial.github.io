@@ -27,7 +27,7 @@ function prepare() {
 function build() {
   cd "$ROOT"
   jekyll build
-  rsync -a "$SRC" "$DST"
+  rsync -a "$SRC/" "$DST/"
   cd "$DST"
   touch .nojekyll
 }
