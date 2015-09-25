@@ -13,7 +13,7 @@ title:               potatosalad
 tagline:             'blog'
 description:         'The Development Blog of Andrew Bennett'
 url:                 https://potatosalad.github.io
-baseurl:             '/'
+baseurl:             ''
 paginate:            5
 
 # About/contact
