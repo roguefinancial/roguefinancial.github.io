@@ -5,8 +5,8 @@ highlighter:         rouge
 # Permalinks
 #
 # Use of `relative_permalinks` ensures post links from the index work properly.
-permalink:           pretty
-relative_permalinks: false
+# permalink:           pretty
+# relative_permalinks: false
 
 # Setup
 title:               potatosalad
@@ -14,7 +14,7 @@ tagline:             'blog'
 description:         'The Development Blog of Andrew Bennett'
 url:                 https://potatosalad.io
 baseurl:             ''
-paginate:            5
+# paginate:            5
 
 # About/contact
 author:
