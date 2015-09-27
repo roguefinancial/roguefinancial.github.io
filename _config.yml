@@ -1,18 +1,18 @@
 # Dependencies
 markdown:            redcarpet
-highlighter:         pygments
+highlighter:         rouge
 
 # Permalinks
 #
 # Use of `relative_permalinks` ensures post links from the index work properly.
 permalink:           pretty
-relative_permalinks: true
+relative_permalinks: false
 
 # Setup
 title:               potatosalad
 tagline:             'blog'
 description:         'The Development Blog of Andrew Bennett'
-url:                 https://potatosalad.github.io
+url:                 https://potatosalad.io
 baseurl:             ''
 paginate:            5
 
@@ -28,3 +28,11 @@ tag_page_dir:        tag
 
 # Custom vars
 version:             1.0.0
+
+# Exclusions
+exclude:
+  - util/
+  - Gemfile
+  - Gemfile.lock
+  - LICENSE.md
+  - README.md

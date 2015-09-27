@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-set -e
-set -x
+set -e # exit immediately if any commands fail
+set -x # debug mode
 
-ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../" && pwd )"
 SRC="$ROOT/_site"
 TMP="$ROOT/.tmp"
 DST="$TMP/_site"
@@ -26,7 +26,7 @@ function prepare() {
 
 function build() {
   cd "$ROOT"
-  jekyll build
+  bundle exec jekyll build
   rsync -a "$SRC/" "$DST/"
   cd "$DST"
   touch .nojekyll
