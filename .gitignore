@@ -41,3 +41,6 @@ validation-report.json
 node_modules
 bower_components
 .tmp/
+
+# Jekyll generated files
+.jekyll-metadata
