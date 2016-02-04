@@ -11,9 +11,9 @@ title: Home
         {{ post.title }}
       </a>
     </h1>
-
     <span class="post-date">{{ post.date | date: "%-d %b, %Y" }}</span>
-
+    <span class="post-comments"><a href="{{ post.url | prepend: site.baseurl }}#disqus_thread"></a></span>
+    <hr>
     {{ post.content }}
   </div>
   {% endfor %}

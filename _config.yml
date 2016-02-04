@@ -6,45 +6,45 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-title: potatosalad
-email: potatosaladx@gmail.com
-description: > # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+title:   potatosalad
+tagline: blog
+email:   potatosaladx@gmail.com
+description: >
+  The Development Blog of Andrew Bennett
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://potatosalad.io" # the base hostname & protocol for your site
 twitter_username: potatosaladx
+twitter:
+  username: potatosaladx
 github_username:  potatosalad
 paginate: 5
+author:
+  name:    Andrew Bennett
+  twitter: https://twitter.com/potatosaladx
+  github:  https://github.com/potatosalad
+
+# Tags
+tag_page_layout: tag_page
+tag_page_dir:    tag
+
+# Custom vars
+version: 1.0.0
 
 # Build settings
-markdown: kramdown
+highlighter: rouge
+markdown: redcarpet
 gems:
+  - jekyll-angular
+  - jekyll-compose
   - jekyll-paginate
+  - jekyll-seo-tag
+  - jekyll/tagging
 
-# # Permalinks
-# #
-# # Use of `relative_permalinks` ensures post links from the index work properly.
-# permalink:           pretty
-# relative_permalinks: true
-
-# # Setup
-# title:               Lanyon
-# tagline:             'A Jekyll theme'
-# description:         'A reserved <a href="http://jekyllrb.com" target="_blank">Jekyll</a> theme that places the utmost gravity on content with a hidden drawer. Made by <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.'
-# url:                 https://potatosalad.io
-# baseurl:             ''
-# paginate:            5
-# gems:
-#   - jekyll-paginate
-#   # - jekyll-tagging
-
-# # About/contact
-# author:
-#   name:              Mark Otto
-#   url:               https://twitter.com/mdo
-#   email:             markdotto@gmail.com
-
-# # Custom vars
-# version:             1.0.0
+# Exclusions
+exclude:
+  - util/
+  - Gemfile
+  - Gemfile.lock
+  - LICENSE.md
+  - Rakefile
+  - README.md

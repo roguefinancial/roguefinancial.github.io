@@ -2,7 +2,6 @@
 _gh_pages
 _site
 .ruby-version
-.jekyll-metadata
 
 # Numerous always-ignore extensions
 *.diff
@@ -42,3 +41,7 @@ validation-report.json
 node_modules
 bower_components
 .tmp/
+
+# Jekyll generated files
+.jekyll-metadata
+.sass-cache
