@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  <!-- Enable responsiveness on mobile devices-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>
+    
+      Erlang NIF with timeslice reductions &middot; Rogue Financial
+    
+  </title>
+
+  <!-- CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/public/css/main.css">
+
+  <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/public/apple-touch-icon-precomposed.png">
+  <link rel="shortcut icon" href="/public/favicon.ico">
+
+  <!-- RSS -->
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+
+  <!-- Begin Jekyll SEO tag -->
+<title>Erlang NIF with timeslice reductions - Rogue Financial</title>
+<meta property="og:title" content="Erlang NIF with timeslice reductions" />
+<meta name="description" content="Recently, I put together an Erlang asynchronous port driver named keccakf1600 which implements the SHA-3 algorithms used in another one of my projects, jose." />
+<meta property='og:description' content="Recently, I put together an Erlang asynchronous port driver named keccakf1600 which implements the SHA-3 algorithms used in another one of my projects, jose." />
+<link rel="canonical" href="https://tech.rogue.tech/2016/02/06/erlang-nif-with-timeslice-reductions/" />
+<meta property='og:url' content='https://tech.rogue.tech/2016/02/06/erlang-nif-with-timeslice-reductions/' />
+<meta property="og:site_name" content="Rogue Financial" />
+<script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "WebSite",
+      "name" : "Rogue Financial",
+      "url" : "https://tech.rogue.tech"
+    }
+  </script>
+<meta property="og:type" content="article" />
+<script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "NewsArticle",
+      "headline": "Erlang NIF with timeslice reductions",
+      "image": null,
+      "datePublished": "2016-02-06T00:00:00-07:00",
+      "description": "Recently, I put together an Erlang asynchronous port driver named keccakf1600 which implements the SHA-3 algorithms used in another one of my projects, jose."
+    }
+  </script>
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@RogueFinancial" />
+<meta name="twitter:title" content="Erlang NIF with timeslice reductions - Rogue Financial" />
+<meta name="twitter:description" content="Recently, I put together an Erlang asynchronous port driver named keccakf1600 which implements the SHA-3 algorithms used in another one of my projects, jose." />
+<!-- End Jekyll SEO tag -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.1/nv.d3.min.js"></script>
+</head>
+
+
+  <body>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-73459380-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+    <!-- Target for toggling the sidebar `.sidebar-checkbox` is for regular
+     styles, `#sidebar-checkbox` for behavior. -->
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+<!-- Toggleable sidebar -->
+<div class="sidebar" id="sidebar">
+<!--   <div class="sidebar-item">
+    <p>Rogue Financial Tech
+</p>
+  </div> -->
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item" href="/">Home</a>
+
+    
+
+    
+    
+      
+        
+      
+    
+      
+        
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+
+    
+    <a class="sidebar-nav-item" href="https://github.com/RogueFinancial"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">RogueFinancial</span></a>
+
+    
+
+    
+    <a class="sidebar-nav-item" href="https://twitter.com/RogueFinancial"><span class="icon icon--twitter"><svg viewBox="0 0 16 16"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/></svg>
+</span><span class="username">RogueFinancial</span></a>
+
+    
+  </nav>
+
+  <div class="sidebar-nav-item">
+    <span>Tags</span>
+  </div>
+
+  <nav class="sidebar-nav">
+    
+    
+      <a class="sidebar-nav-item" href=/tag/c/>C</a>
+    
+      <a class="sidebar-nav-item" href=/tag/elixir/>Elixir</a>
+    
+      <a class="sidebar-nav-item" href=/tag/erlang/>Erlang</a>
+    
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      &copy; 2016. All rights reserved.
+    </p>
+  </div>
+</div>
+
+
+    <!-- Wrap is the content to shift when toggling the sidebar. We wrap the
+         content to avoid any CSS collisions with our real content. -->
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Rogue Financial</a>
+            <small>Tech</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+        <div class="post">
+  <h1 class="post-title">Erlang NIF with timeslice reductions</h1>
+  <span class="post-date">6 Feb, 2016</span>
+  <span class="post-comments"><a href="#disqus_thread"></a></span>
+  <hr>
+  <p>Recently, I put together an Erlang asynchronous port driver named <a href="https://github.com/potatosalad/erlang-keccakf1600">keccakf1600</a> which implements the <a href="https://en.wikipedia.org/wiki/SHA-3">SHA-3</a> algorithms used in another one of my projects, <a href="https://github.com/potatosalad/erlang-jose">jose</a>.</p>
+
+<p>See version <a href="https://github.com/potatosalad/erlang-keccakf1600/tree/1.0.2">1.0.2 of keccakf1600</a> for the original port driver implementation.</p>
+
+<p>When interfacing with native C and the Erlang VM, you essentially have 3 options to choose from:</p>
+
+<ol>
+<li><a href="http://erlang.org/doc/tutorial/c_portdriver.html">Port Driver</a> &mdash; a shared library linked with <a href="http://erlang.org/doc/man/driver_entry.html"><code>driver_entry</code></a> (I/O heavy operations are typically best suited for this type)</li>
+<li><a href="http://erlang.org/doc/tutorial/nif.html">NIF</a> &mdash; a shared library linked with <a href="http://erlang.org/doc/man/erl_nif.html"><code>ERL_NIF_INIT</code></a> (fast synchronous operations are typically best suited for this type)</li>
+<li><a href="http://erlang.org/doc/tutorial/c_port.html">Port</a> &mdash; an external program which typically communicates with the Erlang VM over <code>stdin</code> and <code>stdout</code></li>
+</ol>
+
+<p>My goal was to have a fast and asynchronous way to call blocking functions without disrupting the Erlang VM schedulers from carrying out their work.  The original plan was to use <a href="http://erlang.org/doc/man/erl_driver.html#driver_async%20"><code>driver_async</code></a> combined with <a href="http://erlang.org/doc/man/driver_entry.html#ready_async"><code>ready_async</code></a> to perform the blocking operations on &ldquo;a thread separate from the emulator thread.&rdquo;  I used the <a href="http://erlang.org/doc/man/ei.html"><code>ei</code></a> library in order to communicate between the Erlang VM and the port driver written in C.</p>
+
+<p>Having accomplished my goal, I decided to run a simple benchmark against the equivalent SHA-2 algorithms out of curiosity as to how my implementation might stack up against the native Erlang <a href="http://erlang.org/doc/man/crypto.html"><code>crypto</code></a> library.</p>
+
+<p>The results were not terribly impressive:</p>
+
+<div id="chart1">
+  <svg height="300"></svg>
+</div>
+
+<p>The two main concerns I had with the results were:</p>
+
+<ol>
+<li>Was the SHA-3 implementation I used (based on <a href="http://sourceforge.net/projects/ed448goldilocks/">ed448goldilocks</a>) really 5-7 times slower than the SHA-2 algorithms?</li>
+<li>Why was there so much variance between the SHA-3 algorithms versus the variance observed between the SHA-2 algorithms?</li>
+</ol>
+
+<p>Concern #1 was ruled out by directly testing the C version of the algorithms, for small message sizes they were typically within 1-2μs of each other.</p>
+
+<p>Concern #2 required more research, which eventually led me to the <a href="https://github.com/vinoski/bitwise">bitwise</a> project by Steve Vinoski.  The project explores some of the strategies for dealing with the synchronous nature of a NIF without blocking the scheduler by keeping track of reductions during a given <a href="http://erlang.org/doc/man/erl_nif.html#enif_consume_timeslice">timeslice</a>.  It also explores strategies using the experimental <a href="http://erlang.org/doc/man/erl_nif.html#dirty_nifs">dirty NIF</a> feature.</p>
+
+<p>I highly recommend reading the two presentations from the bitwise project: <a href="https://github.com/vinoski/bitwise/raw/master/vinoski-opt-native-code.pdf">vinoski-opt-native-code.pdf</a> and <a href="https://github.com/vinoski/bitwise/raw/master/vinoski-schedulers.pdf">vinoski-schedulers.pdf</a>.</p>
+
+<p>After experimenting with the two options, I decided to use <a href="http://erlang.org/doc/man/erl_nif.html#enif_consume_timeslice"><code>enif_consume_timeslice</code></a> combined with <a href="http://erlang.org/doc/man/erl_nif.html#enif_schedule_nif"><code>enif_schedule_nif</code></a> to yield control back to the main Erlang VM on larger inputs to prevent blocking other schedulers.</p>
+
+<p>I rewrote the port driver as a NIF and released it as version <a href="https://github.com/potatosalad/erlang-keccakf1600/tree/2.0.0">2.0.0 of keccakf1600</a> and ran the same benchmark again:</p>
+
+<div id="chart2">
+  <svg height="300"></svg>
+</div>
+
+<p>These results are much more consistent and closer to my original expectations.  I plan on refactoring the <a href="https://github.com/potatosalad/erlang-libsodium">erlang-libsodium</a> project using the same technique.</p>
+
+<script>
+(function() {
+  var seriesData1 = [
+    {
+      key: "SHA2",
+      values: [
+        {
+          label: "SHA2/3-224",
+          value: 2.186853
+        },
+        {
+          label: "SHA2/3-256",
+          value: 2.183836
+        },
+        {
+          label: "SHA2/3-384",
+          value: 2.190898
+        },
+        {
+          label: "SHA2/3-512",
+          value: 2.200743
+        }
+      ]
+    },
+    {
+      key: "SHA3",
+      values: [
+        {
+          label: "SHA2/3-224",
+          value: 14.37063
+        },
+        {
+          label: "SHA2/3-256",
+          value: 11.97354
+        },
+        {
+          label: "SHA2/3-384",
+          value: 12.42217
+        },
+        {
+          label: "SHA2/3-512",
+          value: 11.8663
+        },
+        {
+          label: "SHAKE128",
+          value: 12.38027
+        },
+        {
+          label: "SHAKE256",
+          value: 12.96572
+        }
+      ]
+    }
+  ];
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarHorizontalChart()
+      .x(function(d) { return d.label; })
+      .y(function(d) { return d.value; })
+      .margin({left: 100, bottom: 75})
+      .barColor(d3.scale.category20().range())
+      .showValues(true)
+      .duration(250)
+      .showControls(false)
+    ;
+    chart.yAxis.axisLabel('Microseconds (Lower is Better)');
+    d3.select("#chart1 svg")
+      .datum(seriesData1)
+      .call(chart);
+    nv.utils.windowResize(chart.update);
+    return chart;
+  });
+  var seriesData2 = [
+    {
+      key: "SHA2",
+      values: [
+        {
+          label: "SHA2/3-224",
+          value: 2.186853
+        },
+        {
+          label: "SHA2/3-256",
+          value: 2.183836
+        },
+        {
+          label: "SHA2/3-384",
+          value: 2.190898
+        },
+        {
+          label: "SHA2/3-512",
+          value: 2.200743
+        }
+      ]
+    },
+    {
+      key: "SHA3",
+      values: [
+        {
+          label: "SHA2/3-224",
+          value: 3.221057
+        },
+        {
+          label: "SHA2/3-256",
+          value: 3.222021
+        },
+        {
+          label: "SHA2/3-384",
+          value: 3.200662
+        },
+        {
+          label: "SHA2/3-512",
+          value: 3.222704
+        },
+        {
+          label: "SHAKE128",
+          value: 3.228499
+        },
+        {
+          label: "SHAKE256",
+          value: 3.257091
+        }
+      ]
+    }
+  ];
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarHorizontalChart()
+      .x(function(d) { return d.label; })
+      .y(function(d) { return d.value; })
+      .margin({left: 100, bottom: 75})
+      .barColor(d3.scale.category20().range())
+      .showValues(true)
+      .duration(250)
+      .showControls(false)
+    ;
+    chart.yAxis.axisLabel('Microseconds (Lower is Better)');
+    d3.select("#chart2 svg")
+      .datum(seriesData2)
+      .call(chart);
+    nv.utils.windowResize(chart.update);
+    return chart;
+  });
+})();
+</script>
+
+</div>
+
+<div class="related">
+  <h2>Related Posts</h2>
+  <ul class="related-posts">
+    
+  </ul>
+</div>
+
+<div id="disqus_thread"></div>
+<div id="disqus_thread"></div>
+<script>
+/**
+* RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+* LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL; // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+
+s.src = '//roguefinancialtech.disqus.com/embed.js';
+
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+    <script>
+      (function(document) {
+        var toggle = document.querySelector('.sidebar-toggle');
+        var sidebar = document.querySelector('#sidebar');
+        var checkbox = document.querySelector('#sidebar-checkbox');
+
+        document.addEventListener('click', function(e) {
+          var target = e.target;
+
+          if(!checkbox.checked ||
+             sidebar.contains(target) ||
+             (target === checkbox || target === toggle)) return;
+
+          checkbox.checked = false;
+        }, false);
+      })(document);
+    </script>
+    <script id="dsq-count-scr" src="//roguefinancialtech.disqus.com/count.js" async></script>
+  </body>
+</html>
