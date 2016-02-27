@@ -6,22 +6,23 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-title:   potatosalad
-tagline: blog
-email:   potatosaladx@gmail.com
+title:   Rogue Financial
+tagline: Tech
+email:   tech@roguefinancial.com
 description: >
-  The Development Blog of Andrew Bennett
+  Rogue Financial Tech
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://potatosalad.io" # the base hostname & protocol for your site
-twitter_username: potatosaladx
+url: "https://tech.rogue.tech" # the base hostname & protocol for your site
+twitter_username: RogueFinancial
 twitter:
-  username: potatosaladx
-github_username:  potatosalad
+  username: RogueFinancial
+github_username:  RogueFinancial
 paginate: 5
 author:
-  name:    Andrew Bennett
-  twitter: https://twitter.com/potatosaladx
-  github:  https://github.com/potatosalad
+  name:    Rogue Financial
+  twitter: https://twitter.com/RogueFinancial
+  github:  https://github.com/RogueFinancial
+permalink: pretty
 
 # Tags
 tag_page_layout: tag_page

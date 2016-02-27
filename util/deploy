@@ -48,6 +48,6 @@ function deploy() {
   publish "$branch"
 }
 
-deploy "master" "git@github.com:potatosalad/potatosalad.github.io.git"
+deploy "master" "git@github.com:roguefinancial/roguefinancial.github.io.git"
 
 exit 0
